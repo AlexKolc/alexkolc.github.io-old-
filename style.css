@@ -1,0 +1,28 @@
+main {
+    background: #ffffff;
+}
+
+.current-weather-top {
+    display: flex;
+    margin-bottom: 30px;
+}
+
+h1 {
+    font-family: "Times New Roman", serif;
+    color: #758589;
+    font-size: 32px;
+    flex-basis: 30%;
+    margin: 0;
+}
+
+.update-btn {
+    height: 40px;
+    width: 30%;
+    line-height: 40px;
+    font-family: "Times New Roman", serif;
+    background: #cad3d8;
+    color: #758589;
+    border-radius: 5px;
+    border: none;
+    display: inline-block;
+}
