@@ -25,3 +25,54 @@
     border: none;
     font-size: 16px;
 }
+
+.current-city-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 1%;
+}
+
+.current-city {
+    margin: 0 0 8%;
+    font-size: 32px;
+    font-weight: bold;
+}
+
+h3 {
+    font-size: 32px;
+    color: #6f838b;
+}
+
+.current-weather {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+}
+
+.current-weather-img {
+    max-width: 128px;
+    height: auto;
+    margin: 0;
+}
+
+.current-degrees {
+    font-size: 100px;
+    margin: auto 0 0;
+    color: #7e7e7e;
+}
+
+.weather-info li {
+    margin-bottom: 1%;
+}
+
+.characteristic {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background-color: #a8b1b3;
+    color: white;
+    font-size: 16px;
+}
+
+h4 {
+    margin-left: 3%;
+    font-weight: bold;
+}
