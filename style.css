@@ -9,7 +9,7 @@
 }
 
 .weather-top-name {
-    color: #728288;
+    color: #77868a;
     font-size: 32px;
     margin: 0;
 }
@@ -18,12 +18,18 @@
     margin: 2%;
 }
 
-.update-btn {
+.update-btn, .update-btn-img {
     background-color: #cad3d8;
     color: #728288;
     border-radius: 5px;
     border: none;
     font-size: 16px;
+}
+
+.update-img {
+    max-width: 24px;
+    height: auto;
+    margin: 0;
 }
 
 .current-city-info {
@@ -70,9 +76,229 @@ h3 {
     background-color: #a8b1b3;
     color: white;
     font-size: 16px;
+    list-style-type: none;
+}
+
+.characteristic p {
+    text-align: right;
+    margin-right: 6%;
 }
 
 h4 {
-    margin-left: 3%;
+    margin-left: 6%;
     font-weight: bold;
+}
+
+.favorite {
+
+}
+
+.favorite-top {
+    display: grid;
+    grid-template-columns: 50% 45%;
+}
+
+h2 {
+    color: #77868a;
+    font-size: 32px;
+    margin: 0;
+}
+
+
+.add-new-city {
+    display: grid;
+    grid-template-columns: 90% 10%;
+}
+
+.new-city {
+    width: 80%;
+    font-size: 16px;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+    border: none;
+    color: #728288;
+    padding: 10px;
+}
+
+.add-btn {
+    font-size: 20px;
+    font-weight: lighter;
+    color: white;
+    background-color: #718288;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: none;
+    margin-top: auto;
+    margin-bottom: auto;
+    text-align: center;
+    line-height: 32px;
+    cursor: pointer;
+}
+
+.favorite-cities {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 1%;
+    list-style-type: none;
+}
+
+.favorite-city {
+
+}
+
+.favorite-weather {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+}
+
+.favorite-weather-img {
+    max-width: 64px;
+    height: auto;
+    margin: 0;
+}
+
+.degrees {
+    font-size: 26px;
+    color: #7e7e7e;
+    /*margin: 0;*/
+    margin-top: 100px;
+}
+
+.delete-btn {
+    font-size: 20px;
+    font-weight: lighter;
+    color: white;
+    background-color: #718288;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: none;
+    margin-top: auto;
+    margin-bottom: auto;
+    text-align: center;
+    line-height: 32px;
+    transform: rotate(45deg);
+    cursor: pointer;
+}
+
+@media screen and (min-width: 530px) and (max-width: 940px) {
+    .update-btn {
+        display: none;
+    }
+
+    .add-new-city {
+        display: grid;
+        grid-template-columns: 90% 10%;
+        width: 100%;
+        font-size: 1em;
+    }
+
+    .weather-top {
+        margin: 2%;
+        display: grid;
+        grid-template-columns: 70% 30% 1fr;
+    }
+
+    .current-weather {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+    }
+
+    .current-degrees {
+        font-size: 3.2em;
+        margin: auto 0 0;
+        color: #6A7681;
+    }
+
+    .current-weather-img {
+        margin: 0;
+    }
+
+    .new-city {
+        font-size: 10px;
+    }
+}
+
+@media screen and (min-width: 940px) {
+    .update-btn-img {
+        display: none;
+    }
+
+    .favorite-top {
+        display: grid;
+        grid-template-columns: 50% 45%;
+    }
+
+    .add-city {
+        display: grid;
+        grid-template-columns: 90% 10%;
+    }
+
+    .current-city-info {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 1%;
+    }
+
+    .current-weather {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+    }
+
+    .current-degrees {
+        font-size: 3.2em;
+        margin: auto 0 0;
+        color: #6A7681;
+    }
+
+    .current-weather-img {
+        margin: 0;
+    }
+}
+
+
+@media screen and (max-width: 530px) {
+    .favorite-cities {
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+
+    .add-city {
+        display: grid;
+        grid-template-columns: 90% 10%;
+        width: 100%;
+        font-size: 1em;
+    }
+
+    .weather-top {
+        margin: 2%;
+        display: grid;
+        grid-template-columns: 70% 30% 1fr;
+    }
+
+    .update-btn {
+        display: none;
+    }
+
+    .new-city {
+        width: 80%;
+        font-size: 1em;
+    }
+
+    .current-weather {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+
+    }
+
+    .current-degrees {
+        font-size: 3.2em;
+        margin: auto 0 0;
+        color: #6A7681;
+    }
+
+    .current-weather-img {
+        margin: 0;
+    }
 }
