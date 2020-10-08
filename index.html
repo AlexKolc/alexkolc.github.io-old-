@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather</title>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -10,8 +11,8 @@
 <header class="weather-top">
     <h1 class="weather-top-name">Погода здесь</h1>
     <button class="update-btn" type="button" name="updateLocation">Обновить геолокацию</button>
-    <button class="update-btn-img" type="button">
-        <img src="images/location-update.png" class="update-img" alt="update" />
+    <button class="update-btn-img" type="button" name="updateLocation">
+        <img src="images/location-update.png" class="update-img" alt="update"/>
     </button>
 </header>
 
@@ -20,27 +21,33 @@
         <div class="current-city">
             <h3>Saint-Petersburg</h3>
             <div class="current-weather">
-                <img src="images/broken_clouds.png" class="current-weather-img" alt="Weather">
-                <div class="current-degrees">8&deg;C</div>
+                <img src="images/broken_clouds.png" class="current-weather-img" alt="weather"/>
+                <p class="current-degrees">8&deg;C</p>
             </div>
         </div>
+
+
         <ul class="weather-info">
             <li class="characteristic">
                 <h4>Ветер</h4>
                 <p>Moderate breeze, 6.0 m/s, North-northwest</p>
             </li>
+
             <li class="characteristic">
                 <h4>Облачность</h4>
                 <p>Broken clouds</p>
             </li>
+
             <li class="characteristic">
                 <h4>Давление</h4>
                 <p>1013 hpa</p>
             </li>
+
             <li class="characteristic">
                 <h4>Влажность</h4>
-                <p>52%</p>
+                <p>52 %</p>
             </li>
+
             <li class="characteristic">
                 <h4>Координаты</h4>
                 <p>[59.88, 30.42]</p>
@@ -48,13 +55,12 @@
         </ul>
     </div>
 
+
     <section class="favorite">
         <div class="favorite-top">
             <h2>Избранное</h2>
             <div class="add-new-city">
-                <label>
-                    <input class="new-city" type="text" placeholder="Добавить новый город">
-                </label>
+                <input class="new-city" type="text" placeholder="Добавить новый город">
                 <button type="button" name="button" class="add-btn">+</button>
             </div>
         </div>
@@ -63,9 +69,9 @@
             <li class="favorite-city">
                 <div class="favorite-weather">
                     <h3>Moscow</h3>
-                    <p class="degrees">5&deg;C</p>
-                    <img src="images/broken_clouds.png" class="favorite-weather-img" alt="Weather small">
-                    <button class="delete-btn">+</button>
+                    <p class="degrees">-8&deg;C</p>
+                    <img src="images/broken_clouds.png" class="favorite-weather-img" alt="weather small"/>
+                    <button type="button" name="button" class="delete-btn">+</button>
                 </div>
 
                 <ul class="weather-info">
@@ -83,7 +89,7 @@
                     </li>
                     <li class="characteristic">
                         <h4>Влажность</h4>
-                        <p>52%</p>
+                        <p>52 %</p>
                     </li>
                     <li class="characteristic">
                         <h4>Координаты</h4>
@@ -96,8 +102,8 @@
                 <div class="favorite-weather">
                     <h3>Helsinki</h3>
                     <p class="degrees">3&deg;C</p>
-                    <img src="images/broken_clouds.png" class="favorite-weather-img" alt="Weather small">
-                    <button class="delete-btn">+</button>
+                    <img src="images/broken_clouds.png" class="favorite-weather-img" alt="weather small"/>
+                    <button type="button" name="button" class="delete-btn">+</button>
                 </div>
 
                 <ul class="weather-info">
@@ -115,7 +121,7 @@
                     </li>
                     <li class="characteristic">
                         <h4>Влажность</h4>
-                        <p>52%</p>
+                        <p>52 %</p>
                     </li>
                     <li class="characteristic">
                         <h4>Координаты</h4>
@@ -127,9 +133,9 @@
             <li class="favorite-city">
                 <div class="favorite-weather">
                     <h3>Moscow</h3>
-                    <p class="degrees">5&deg;C</p>
-                    <img src="images/broken_clouds.png" class="favorite-weather-img" alt="Weather small">
-                    <button class="delete-btn">+</button>
+                    <p class="degrees">-8&deg;C</p>
+                    <img src="images/broken_clouds.png" class="favorite-weather-img" alt="weather small"/>
+                    <button type="button" name="button" class="delete-btn">+</button>
                 </div>
 
                 <ul class="weather-info">
@@ -147,7 +153,7 @@
                     </li>
                     <li class="characteristic">
                         <h4>Влажность</h4>
-                        <p>52%</p>
+                        <p>52 %</p>
                     </li>
                     <li class="characteristic">
                         <h4>Координаты</h4>
@@ -160,8 +166,8 @@
                 <div class="favorite-weather">
                     <h3>Helsinki</h3>
                     <p class="degrees">3&deg;C</p>
-                    <img src="images/broken_clouds.png" class="favorite-weather-img" alt="Weather small">
-                    <button class="delete-btn">+</button>
+                    <img src="images/broken_clouds.png" class="favorite-weather-img" alt="weather small"/>
+                    <button type="button" name="button" class="delete-btn">+</button>
                 </div>
 
                 <ul class="weather-info">
@@ -179,7 +185,7 @@
                     </li>
                     <li class="characteristic">
                         <h4>Влажность</h4>
-                        <p>52%</p>
+                        <p>52 %</p>
                     </li>
                     <li class="characteristic">
                         <h4>Координаты</h4>
@@ -191,9 +197,9 @@
             <li class="favorite-city">
                 <div class="favorite-weather">
                     <h3>Moscow</h3>
-                    <p class="degrees">5&deg;C</p>
-                    <img src="images/broken_clouds.png" class="favorite-weather-img" alt="Weather small">
-                    <button class="delete-btn">+</button>
+                    <p class="degrees">-8&deg;C</p>
+                    <img src="images/broken_clouds.png" class="favorite-weather-img" alt="weather small"/>
+                    <button type="button" name="button" class="delete-btn">+</button>
                 </div>
 
                 <ul class="weather-info">
@@ -211,7 +217,7 @@
                     </li>
                     <li class="characteristic">
                         <h4>Влажность</h4>
-                        <p>52%</p>
+                        <p>52 %</p>
                     </li>
                     <li class="characteristic">
                         <h4>Координаты</h4>
@@ -224,8 +230,8 @@
                 <div class="favorite-weather">
                     <h3>Helsinki</h3>
                     <p class="degrees">3&deg;C</p>
-                    <img src="images/broken_clouds.png" class="favorite-weather-img" alt="Weather small">
-                    <button class="delete-btn">+</button>
+                    <img src="images/broken_clouds.png" class="favorite-weather-img" alt="weather small"/>
+                    <button type="button" name="button" class="delete-btn">+</button>
                 </div>
 
                 <ul class="weather-info">
@@ -243,7 +249,7 @@
                     </li>
                     <li class="characteristic">
                         <h4>Влажность</h4>
-                        <p>52%</p>
+                        <p>52 %</p>
                     </li>
                     <li class="characteristic">
                         <h4>Координаты</h4>
