@@ -81,7 +81,7 @@
 .current-weather-img {
     max-width: 128px;
     height: auto;
-    margin: 0;
+    margin-top: auto;
 }
 
 .favorite-cities {
@@ -89,12 +89,6 @@
     grid-template-columns: 1fr 1fr;
     grid-gap: 1%;
     grid-column-gap: 5%;
-}
-
-.favorite-top {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: 5%;
 }
 
 .favorite-weather-img {
@@ -111,27 +105,23 @@
 
 .characteristic {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 4fr;
     background-color: #a8b1b3;
     color: white;
     font-size: 0.8em;
 }
 
-characteristic p {
-    text-align: right;
-    margin-right: 6%;
-}
-
 .degrees {
-    font-size: 2.2em;
+    font-size: 2em;
     margin: auto;
     text-align: right;
     color: #7e7e7e;
 }
 
-h3 {
-    font-size: 1.8em;
+.current-city-name {
+    font-size: 1.4em;
     color: #6f838b;
+    margin-bottom: 3%;
 }
 
 h2 {
@@ -140,10 +130,12 @@ h2 {
     margin: 0;
 }
 
-h4 {
-    margin-left: 6%;
+.characteristic span {
     font-size: 1.2em;
     font-weight: bold;
+    margin-top: 3%;
+    margin-bottom: 3%;
+    margin-left: 3%;
 }
 
 .characteristic p {
@@ -166,14 +158,14 @@ ul {
 .new-city {
     margin: 0 10px 0 0;
     background-color: #f1f1f1;
-    font-size: 1.1vw;
+    font-size: 1em;
     border-radius: 5px;
     border: none;
     color: #728288;
     padding: 10px;
 }
 
-@media screen and (min-width: 0px) and (max-width: 530px) {
+@media screen and (min-width: 0px) and (max-width: 650px) {
     .favorite-cities {
         display: grid;
         grid-template-columns: 1fr;
@@ -183,7 +175,9 @@ ul {
         display: grid;
         grid-template-columns: 90% 10%;
         width: 100%;
-        font-size: 1em;
+        font-size: 0.8em;
+        margin-top: 3%;
+        margin-bottom: 3%;
     }
 
     .weather-top {
@@ -209,16 +203,20 @@ ul {
 
     .current-degrees {
         font-size: 3.2em;
-        margin: auto 0 0;
-        color: #6A7681;
+        margin: auto auto auto 0;
+        color: #7e7e7e;
     }
 
     .current-weather-img {
         margin: 0;
     }
+
+    .favorite-top {
+        margin-top: 5%;
+    }
 }
 
-@media screen and (min-width: 530px) and (max-width: 940px) {
+@media screen and (min-width: 650px) and (max-width: 940px) {
     .update-btn {
         display: none;
     }
@@ -227,7 +225,6 @@ ul {
         display: grid;
         grid-template-columns: 90% 10%;
         width: 100%;
-        font-size: 1em;
     }
 
     .weather-top {
@@ -244,7 +241,7 @@ ul {
     .current-degrees {
         font-size: 3.2em;
         margin: auto 0 0;
-        color: #6A7681;
+        color: #7e7e7e;
     }
 
     .current-weather-img {
@@ -253,6 +250,12 @@ ul {
 
     .new-city {
         font-size: 1em;
+    }
+
+    .favorite-top {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 5%;
     }
 }
 
@@ -286,10 +289,16 @@ ul {
     .current-degrees {
         font-size: 3.2em;
         margin: auto 0 0;
-        color: #6A7681;
+        color: #7e7e7e;
     }
 
     .current-weather-img {
         margin: 0;
+    }
+
+    .favorite-top {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 5%;
     }
 }
