@@ -3,6 +3,9 @@
 
 Разработка должна вестись итеративно и публиковаться на github. К моменту проверки и сдачи работы репозиторий должен быть публичным. Также должна быть настроена публикация работы на github pages.
 
+
+### Desktop версия
 ![alt tag](https://sun9-49.userapi.com/cnF3w4aYEIdGAzqTr31m1fYzx51mPgZdny2JHg/ekfQQ-jqTn8.jpg "Desktop версия")​
 
+### Mobile версия
 ![alt tag](https://sun9-39.userapi.com/rKyHTD-SUO76IYgnMEErzXmOoSqprIuauGpodA/stXp9OlacdA.jpg "Mobile версия")​
