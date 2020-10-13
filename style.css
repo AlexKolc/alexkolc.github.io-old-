@@ -2,12 +2,6 @@
     font-family: 'Times New Roman', serif;
 }
 
-.weather-top {
-    margin: 2%;
-    display: grid;
-    grid-template-columns: 1fr 25% 1fr;
-}
-
 .weather-top-name {
     color: #77868a;
     font-size: 2.2em;
@@ -70,6 +64,8 @@
     border: none;
     font-size: 1.2em;
     cursor: pointer;
+    height: 2em;
+    width: 100%;
 }
 
 .update-img {
@@ -165,6 +161,26 @@ ul {
     padding: 10px;
 }
 
+.current-city-loader {
+    content: " ";
+    display: block;
+    border-top: 16px solid #6f838b;
+    border-bottom: 16px solid #6f838b;
+    border-left: 16px solid #ffffff;
+    border-right: 16px solid #ffffff;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: cur-spin 2s linear infinite;
+}
+
+@keyframes cur-spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
 @media screen and (min-width: 0px) and (max-width: 650px) {
     .favorite-cities {
         display: grid;
@@ -183,15 +199,19 @@ ul {
     .weather-top {
         margin: 2%;
         display: grid;
-        grid-template-columns: 70% 30% 1fr;
+        grid-template-columns: 70% 30%;
     }
 
     .update-btn {
         display: none;
     }
 
+    .update-btn-img {
+        margin: 0 0 0 auto;
+    }
+
     .new-city {
-        width: 80%;
+        width: 90%;
         font-size: 1em;
     }
 
@@ -221,6 +241,10 @@ ul {
         display: none;
     }
 
+    .update-btn-img {
+        margin: 0 0 0 auto;
+    }
+
     .add-new-city {
         display: grid;
         grid-template-columns: 90% 10%;
@@ -230,7 +254,7 @@ ul {
     .weather-top {
         margin: 2%;
         display: grid;
-        grid-template-columns: 70% 30% 1fr;
+        grid-template-columns: 70% 30%;
     }
 
     .current-weather {
@@ -264,10 +288,12 @@ ul {
         display: none;
     }
 
-    /*.favorite-top {
+    .weather-top {
+        margin: 2%;
         display: grid;
-        grid-template-columns: 50% 50%;
-    }*/
+        grid-template-columns: 1fr 25% 1fr;
+    }
+
     .add-new-city {
         display: grid;
         grid-template-columns: 90% 10%;

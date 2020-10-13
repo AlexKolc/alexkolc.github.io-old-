@@ -10,56 +10,22 @@
 <body>
 <header class="weather-top">
     <h1 class="weather-top-name">Погода здесь</h1>
-    <button class="update-btn" type="button" name="updateLocation">Обновить геолокацию</button>
-    <button class="update-btn-img" type="button" name="updateLocation">
-        <img src="images/location-update.png" class="update-img" alt="update"/>
-    </button>
+    <form method="get" name="updateLocation">
+        <button class="update-btn" type="button" name="updateLocation">Обновить геолокацию</button>
+        <button class="update-btn-img" type="button" name="updateLocation">
+            <img src="images/location-update.png" class="update-img" alt="update"/>
+        </button>
+    </form>
 </header>
 
 <main class="main">
-    <section class="current-city-info">
-        <div class="current-city">
-            <h2 class="current-city-name">Saint-Petersburg</h2>
-            <div class="current-weather">
-                <img src="images/broken_clouds.png" class="current-weather-img" alt="weather"/>
-                <p class="current-degrees">8&deg;C</p>
-            </div>
-        </div>
-
-
-        <ul class="weather-info">
-            <li class="characteristic">
-                <span>Ветер</span>
-                <p>Moderate breeze, 6.0 m/s, North-northwest</p>
-            </li>
-
-            <li class="characteristic">
-                <span>Облачность</span>
-                <p>Broken clouds</p>
-            </li>
-
-            <li class="characteristic">
-                <span>Давление</span>
-                <p>1013 hpa</p>
-            </li>
-
-            <li class="characteristic">
-                <span>Влажность</span>
-                <p>52 %</p>
-            </li>
-
-            <li class="characteristic">
-                <span>Координаты</span>
-                <p>[59.88, 30.42]</p>
-            </li>
-        </ul>
-    </section>
+    <section class="current-city-info"></section>
 
     <section class="favorite">
         <div class="favorite-top">
             <h2>Избранное</h2>
             <div>
-                <form action="someurl" class="add-new-city">
+                <form method="get" name="addNewCity">
                     <input class="new-city" type="text" placeholder="Добавить новый город">
                     <button type="button" name="button" class="add-btn">+</button>
                 </form>
@@ -67,7 +33,7 @@
         </div>
 
         <ul class="favorite-cities">
-            <li class="favorite-city">
+            <!--<li class="favorite-city">
                 <div class="favorite-weather">
                     <h3>Moscow</h3>
                     <p class="degrees">-8&deg;C</p>
@@ -257,8 +223,9 @@
                         <p>[59.88, 30.42]</p>
                     </li>
                 </ul>
-            </li>
+            </li>-->
         </ul>
     </section>
 </main>
+<script src="weather.js"></script>
 </body>
