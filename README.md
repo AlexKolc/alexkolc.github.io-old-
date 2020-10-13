@@ -6,10 +6,10 @@
 
 ### Desktop версия
 <p align="center">
-  ![alt tag](https://sun9-49.userapi.com/cnF3w4aYEIdGAzqTr31m1fYzx51mPgZdny2JHg/ekfQQ-jqTn8.jpg "Desktop версия")​
+  <img src="https://sun9-49.userapi.com/cnF3w4aYEIdGAzqTr31m1fYzx51mPgZdny2JHg/ekfQQ-jqTn8.jpg">
 </p>
 
 ### Mobile версия
 <p align="center">
-  ![alt tag](https://sun9-39.userapi.com/rKyHTD-SUO76IYgnMEErzXmOoSqprIuauGpodA/stXp9OlacdA.jpg "Mobile версия")​
+  <img src="https://sun9-39.userapi.com/rKyHTD-SUO76IYgnMEErzXmOoSqprIuauGpodA/stXp9OlacdA.jpg">
 </p>
