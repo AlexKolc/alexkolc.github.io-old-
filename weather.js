@@ -1,6 +1,6 @@
 let updateLocationForm = document.forms.namedItem('updateLocation');
 
-updateLocationForm.addEventListener('submit', (event) => {
+updateLocationForm.addEventListener('click', (event) => {
     getLocation();
     event.preventDefault();
 })
@@ -63,12 +63,12 @@ function fillCurrentWeatherInfo(jsonResult) {
     return `<ul class="weather-info">
             <li class="characteristic">
                 <span>Ветер</span>
-                <p>${jsonResult.wind.speed} m/s, North-northwest</p>
+                <p>${getTypeOfWind(jsonResult.wind.speed)}, ${jsonResult.wind.speed} m/s, North-northwest</p>
             </li>
 
             <li class="characteristic">
                 <span>Облачность</span>
-                <p>${jsonResult.clouds.all} %</p>
+                <p>${getTypeOfCloudy(jsonResult.clouds.all)}</p>
             </li>
 
             <li class="characteristic">
@@ -86,6 +86,34 @@ function fillCurrentWeatherInfo(jsonResult) {
                 <p>[${jsonResult.coord.lat}, ${jsonResult.coord.lon}]</p>
             </li>
         </ul>`;
+}
+
+function getTypeOfWind(wind) {
+    if (wind >= 0 && wind < 6) {
+        return 'Light breeze';
+    } else if (wind >= 6 && wind < 15) {
+        return 'Moderate breeze';
+    } else if (wind >= 15 && wind < 25) {
+        return 'Windy';
+    } else if (wind >= 25 && wind < 33) {
+        return 'Very windy';
+    } else if (wind >= 33) {
+        return 'Strong wind';
+    }
+}
+
+function getTypeOfCloudy(percent) {
+    if (percent < 12.5) {
+        return 'Clear';
+    } else if (percent >= 12.5 && percent < 37.5) {
+        return 'Mostly clear';
+    } else if (percent >= 37.5 && percent < 62.5) {
+        return 'Partly cloudy';
+    } else if (percent >= 62.5 && percent < 87.5) {
+        return 'Mostly cloudy';
+    } else if (percent >= 87.5) {
+        return 'Cloudy';
+    }
 }
 
 getLocation();
