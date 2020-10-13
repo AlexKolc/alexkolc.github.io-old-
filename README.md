@@ -5,7 +5,11 @@
 
 
 ### Desktop версия
-![alt tag](https://sun9-49.userapi.com/cnF3w4aYEIdGAzqTr31m1fYzx51mPgZdny2JHg/ekfQQ-jqTn8.jpg "Desktop версия")​
+<p align="center">
+  ![alt tag](https://sun9-49.userapi.com/cnF3w4aYEIdGAzqTr31m1fYzx51mPgZdny2JHg/ekfQQ-jqTn8.jpg "Desktop версия")​
+</p>
 
 ### Mobile версия
-![alt tag](https://sun9-39.userapi.com/rKyHTD-SUO76IYgnMEErzXmOoSqprIuauGpodA/stXp9OlacdA.jpg "Mobile версия")​
+<p align="center">
+  ![alt tag](https://sun9-39.userapi.com/rKyHTD-SUO76IYgnMEErzXmOoSqprIuauGpodA/stXp9OlacdA.jpg "Mobile версия")​
+</p>
