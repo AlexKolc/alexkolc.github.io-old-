@@ -204,7 +204,7 @@ function addNewCity() {
 function newCityLoaderInfo() {
     let newCity = document.createElement('li');
     newCity.className = 'favorite-city';
-    newCity.innerHTML = '<div class="lds-dual-ring"></div>';
+    newCity.innerHTML = '<div class="current-city-loader"></div>';
     document.getElementsByClassName('favorite-cities')[0].appendChild(newCity);
     return newCity;
 }

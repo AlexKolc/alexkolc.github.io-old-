@@ -168,8 +168,7 @@ ul {
     border-bottom: 16px solid #6f838b;
     border-left: 16px solid #ffffff;
     border-right: 16px solid #ffffff;
-    margin-left: auto;
-    margin-right: auto;
+    margin: auto;
     border-radius: 50%;
     width: 120px;
     height: 120px;
@@ -177,8 +176,13 @@ ul {
 }
 
 .favorite-city .current-city-loader {
+    margin-top: 60px;
     width: 60px;
     height: 60px;
+    border-top: 8px solid #6f838b;
+    border-bottom: 8px solid #6f838b;
+    border-left: 8px solid #ffffff;
+    border-right: 8px solid #ffffff;
 }
 
 @keyframes cur-spin {
