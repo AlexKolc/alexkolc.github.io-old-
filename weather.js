@@ -1,7 +1,13 @@
 let updateLocationForm = document.forms.namedItem('updateLocation');
+let addNewCityForm = document.forms.namedItem('addNewCity');
 
 updateLocationForm.addEventListener('click', (event) => {
     getLocation();
+    event.preventDefault();
+})
+
+addNewCityForm.addEventListener('submit', (event) => {
+    addNewCity();
     event.preventDefault();
 })
 
@@ -20,6 +26,16 @@ function request(params) {
     }).catch(() => {
         alert('Connection was lost');
     });
+}
+
+function addSavedCities() {
+    for (let i = 0; i < localStorage.length; i++) {
+        const newCity = newCityLoaderInfo();
+        let key = localStorage.key(i);
+        request(['q=' + key]).then((jsonResult) => {
+            addCity(jsonResult, newCity);
+        });
+    }
 }
 
 function getLocation() {
@@ -54,16 +70,16 @@ function fillCurrentCityInfo(params) {
                 </div>
             </div>
             <ul class="weather-info">
-                ${fillCurrentWeatherInfo(jsonResult)}
+                ${fillWeatherInfo(jsonResult)}
             </ul>`;
     });
 }
 
-function fillCurrentWeatherInfo(jsonResult) {
+function fillWeatherInfo(jsonResult) {
     return `<ul class="weather-info">
             <li class="characteristic">
                 <span>Ветер</span>
-                <p>${getTypeOfWind(jsonResult.wind.speed)}, ${jsonResult.wind.speed} m/s, North-northwest</p>
+                <p>${getTypeOfWind(jsonResult.wind.speed)}, ${jsonResult.wind.speed} m/s, ${getWindDirection(jsonResult.wind.deg)}</p>
             </li>
 
             <li class="characteristic">
@@ -88,6 +104,7 @@ function fillCurrentWeatherInfo(jsonResult) {
         </ul>`;
 }
 
+
 function getTypeOfWind(wind) {
     if (wind >= 0 && wind < 6) {
         return 'Light breeze';
@@ -100,6 +117,55 @@ function getTypeOfWind(wind) {
     } else if (wind >= 33) {
         return 'Strong wind';
     }
+}
+
+function getWindDirection(deg) {
+    if (deg > 11.25 && deg <= 33.75) {
+        return 'North-Northeast'
+    }
+    if (deg > 33.75 && deg <= 56.25) {
+        return 'Northeast'
+    }
+    if (deg > 56.25 && deg <= 78.75) {
+        return 'East-Northeast'
+    }
+    if (deg > 78.75 && deg <= 101.25) {
+        return 'East'
+    }
+    if (deg > 101.25 && deg <= 123.75) {
+        return 'East-Southeast'
+    }
+    if (deg > 123.75 && deg <= 146.25) {
+        return 'Southeast'
+    }
+    if (deg > 146.25 && deg <= 168.75) {
+        return 'South-Southeast'
+    }
+    if (deg > 168.75 && deg <= 191.25) {
+        return 'South'
+    }
+    if (deg > 191.25 && deg <= 213.75) {
+        return 'South-Southwest'
+    }
+    if (deg > 213.75 && deg <= 236.25) {
+        return 'Southwest'
+    }
+    if (deg > 236.25 && deg <= 258.75) {
+        return 'West-Southwest'
+    }
+    if (deg > 258.75 && deg <= 281.25) {
+        return 'West'
+    }
+    if (deg > 281.25 && deg <= 303.75) {
+        return 'West-Northwest'
+    }
+    if (deg > 303.75 && deg <= 326.25) {
+        return 'Northwest'
+    }
+    if (deg > 326.25 && deg <= 346.75) {
+        return 'North-Northwest'
+    }
+    return 'North'
 }
 
 function getTypeOfCloudy(percent) {
@@ -116,4 +182,53 @@ function getTypeOfCloudy(percent) {
     }
 }
 
+function addNewCity() {
+    const formData = new FormData(addNewCityForm);
+    const cityName = formData.get('newCityName').toString();
+    // const cityName = 'Moscow';
+    addNewCityForm.reset();
+    if (localStorage.hasOwnProperty(cityName)) {
+        return;
+    }
+    const newCity = newCityLoaderInfo();
+    request(['q=' + cityName]).then((jsonResult) => {
+        if (jsonResult && !localStorage.hasOwnProperty(jsonResult.name)) {
+            localStorage.setItem(jsonResult.name, '');
+            addCity(jsonResult, newCity);
+        } else {
+            newCity.remove();
+        }
+    });
+}
+
+function newCityLoaderInfo() {
+    let newCity = document.createElement('li');
+    newCity.className = 'favorite-city';
+    newCity.innerHTML = '<div class="lds-dual-ring"></div>';
+    document.getElementsByClassName('favorite-cities')[0].appendChild(newCity);
+    return newCity;
+}
+
+function addCity(jsonResult, newCity) {
+    const cityName = jsonResult.name;
+    newCity.id = cityName.split(' ').join('-');
+    //const imageName = getIcon(jsonResult);
+    newCity.innerHTML = `<div class="favorite-weather">
+                            <h3>${cityName}</h3>
+                            <p class="degrees">${Math.floor(jsonResult.main.temp)}&deg;C</p>
+                            <img src="images/broken_clouds.png" class="favorite-weather-img" alt="weather small"/>
+                            <button onclick="deleteCity(\'${cityName}\');" class="delete-btn">+</button>
+                        </div>
+ 
+                        <ul class="weather-info">
+                            ${fillWeatherInfo(jsonResult)}
+                        </ul>`;
+}
+
+function deleteCity(cityName) {
+    localStorage.removeItem(cityName);
+    document.getElementById(cityName.split(' ').join('-')).remove();
+}
+
 getLocation();
+addSavedCities();
