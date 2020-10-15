@@ -108,7 +108,7 @@
 }
 
 .degrees {
-    font-size: 2em;
+    font-size: 1.8em;
     margin: auto;
     text-align: right;
     color: #7e7e7e;
@@ -191,12 +191,15 @@ ul {
 }
 
 @media screen and (min-width: 0px) and (max-width: 650px) {
-    .favorite-weather-img {
-        max-width: 35px;
-        height: auto;
-        margin-top: auto;
-        margin-bottom: auto;
+    .degrees {
+        text-align: left;
     }
+
+    .favorite-weather-img {
+        margin-right: auto;
+        margin-left: auto;
+    }
+
 
     .favorite-cities {
         display: grid;
@@ -253,6 +256,15 @@ ul {
 }
 
 @media screen and (min-width: 650px) and (max-width: 940px) {
+    .degrees {
+        text-align: left;
+    }
+
+    .favorite-weather-img {
+        margin-right: 0;
+        margin-left: auto;
+    }
+
     .update-btn {
         display: none;
     }
