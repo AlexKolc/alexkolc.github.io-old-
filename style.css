@@ -88,7 +88,7 @@
 }
 
 .favorite-weather-img {
-    max-width: 64px;
+    max-width: 40px;
     height: auto;
     margin-top: auto;
     margin-bottom: auto;
@@ -191,6 +191,13 @@ ul {
 }
 
 @media screen and (min-width: 0px) and (max-width: 650px) {
+    .favorite-weather-img {
+        max-width: 35px;
+        height: auto;
+        margin-top: auto;
+        margin-bottom: auto;
+    }
+
     .favorite-cities {
         display: grid;
         grid-template-columns: 1fr;
