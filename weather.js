@@ -307,20 +307,41 @@ function haveWind(wind) {
 }
 
 function havePrecipitation(jsonResult) {
-    let snow = jsonResult.snow;
-    let rain = jsonResult.rain;
+    // Todo: property rain doesn't have property 1h and 3h
+    //let rs = 'snow: ' + snow[`3h`] + '; rain: ' + rain[`3h`];
+    let rain = 0;
+    let snow = 0;
+    if (jsonResult.hasOwnProperty('rain') && jsonResult.rain.hasOwnProperty('1h')) {
+        rain = jsonResult.rain['1h'];
+        //alert("RAIN ITS A PAIN");
+    }
+    if (jsonResult.hasOwnProperty('snow') && jsonResult.snow.hasOwnProperty('1h')) {
+        snow = jsonResult.snow['1h'];
+        //alert("SNOW TOO");
+    }
+    // let message = jsonResult.name + ' ' + jsonResult.hasOwnProperty('rain').toString() + ' ';
+    // if (jsonResult.hasOwnProperty('rain')) {
+    //     message = message + jsonResult.rain.hasOwnProperty('1h').toString();
+    // }
+    // alert(message);
     if (snow > rain) {
         if (snow > 0.1) {
             return 'snow';
         }
     } else if (rain >= snow) {
-        if (rain < 3) {
-            return 'mistyrain';
-        } else if (rain < 15) {
+        if (rain !== 0) {
             return 'rain';
-        } else if (rain > 14) {
-            return 'downpour';
         }
+        // Todo: 1h it's small data for predict precipitation
+        // if (rain < 0.3) {
+        //     return 'no';
+        // } else if (rain < 3) {
+        //     return 'mistyrain';
+        // } else if (rain < 15) {
+        //     return 'rain';
+        // } else if (rain > 14) {
+        //     return 'downpour';
+        // }
     }
     return 'no';
 }
@@ -331,7 +352,7 @@ function getTimeOfDay(jsonResult) {
     now.setMinutes(0);
     now.setHours(0);
     now.setSeconds(now.getSeconds() + jsonResult.dt + jsonResult.timezone);
-    if (now.getHours() > 21 || now.getHours() < 6) { // Todo: check times sunrise and sunset
+    if (now.getHours() > 21 || now.getHours() < 6) { // Todo: check timings sunrise and sunset
         return 'night';
     }
     return 'day';
