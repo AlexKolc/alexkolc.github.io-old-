@@ -235,6 +235,9 @@ function getWeatherIcon(jsonResult) {
     let precipitation = havePrecipitation(jsonResult);
     let timeOfDay = getTimeOfDay(jsonResult);
 
+    //let al = clouds + ' ' + wind + ' ' + precipitation + ' ' + timeOfDay;
+    //alert(al);
+
     if (clouds === 'cloudy' && precipitation === 'no' && wind === 'no') {
         return 'cloud';
     } else if (clouds === 'variable' && precipitation === 'no' && wind === 'no' && timeOfDay === 'day') {
@@ -323,10 +326,12 @@ function havePrecipitation(jsonResult) {
 }
 
 function getTimeOfDay(jsonResult) {
-    let now = jsonResult.dt;
-    let sunrise = jsonResult.sys.sunrise;
-    let sunset = jsonResult.sys.sunset;
-    if (now > sunset) {
+    let now = new Date();
+    now.setSeconds(0);
+    now.setMinutes(0);
+    now.setHours(0);
+    now.setSeconds(now.getSeconds() + jsonResult.dt + jsonResult.timezone);
+    if (now.getHours() > 21 || now.getHours() < 6) { // Todo: check times sunrise and sunset
         return 'night';
     }
     return 'day';
