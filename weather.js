@@ -55,53 +55,64 @@ function getLocation() {
     }
 }
 
+function sleep(milliseconds) {
+    const date = Date.now();
+    let currentDate = null;
+    do {
+        currentDate = Date.now();
+    } while (currentDate - date < milliseconds);
+}
+
 function currentCityInfoLoader() {
-    document.getElementsByClassName('current-city-info')[0].innerHTML = '<div class="current-city-loader"></div>';
+    document.getElementsByClassName('current-city-info')[0].innerHTML = `<div class="current-city-loader"></div>`;
 }
 
 function fillCurrentCityInfo(params) {
     request(params).then((jsonResult) => {
-        document.getElementsByClassName('current-city-info')[0].innerHTML = `
-            <div class="current-city">
-                <h2 class="current-city-name">${jsonResult.name}</h2>
-                <div class="current-weather">
-                    <img src="images/weather/${getWeatherIcon(jsonResult)}.png" class="current-weather-img" alt="weather"/>
-                    <p class="current-degrees">${Math.floor(jsonResult.main.temp)}&deg;C</p>
-                </div>
-            </div>
-            <ul class="weather-info">
-                ${fillWeatherInfo(jsonResult)}
-            </ul>`;
+        const template = document.querySelector('#tempCurrentCity');
+        const imp = document.importNode(template.content, true)
+        imp.querySelector('.current-city-name').innerHTML = jsonResult.name;
+        imp.querySelector('.current-weather-img').src = `images/weather/${getWeatherIcon(jsonResult)}.png`;
+        imp.querySelector('.current-degrees').innerHTML = `${Math.floor(jsonResult.main.temp)}&deg;C`;
+        fillWeatherInfo(jsonResult, imp);
+        document.getElementsByClassName('current-city-info')[0].innerHTML = '';
+        document.getElementsByClassName('current-city-info')[0].append(imp);
     });
 }
 
-function fillWeatherInfo(jsonResult) {
-    return `<ul class="weather-info">
-            <li class="characteristic">
-                <span>Ветер</span>
-                <p>${getTypeOfWind(jsonResult.wind.speed)}, ${jsonResult.wind.speed} m/s, ${getWindDirection(jsonResult.wind.deg)}</p>
-            </li>
-
-            <li class="characteristic">
-                <span>Облачность</span>
-                <p>${getTypeOfCloudy(jsonResult.clouds.all)}</p>
-            </li>
-
-            <li class="characteristic">
-                <span>Давление</span>
-                <p>${jsonResult.main.pressure} hpa</p>
-            </li>
-
-            <li class="characteristic">
-                <span>Влажность</span>
-                <p>${jsonResult.main.humidity} %</p>
-            </li>
-
-            <li class="characteristic">
-                <span>Координаты</span>
-                <p>[${jsonResult.coord.lat}, ${jsonResult.coord.lon}]</p>
-            </li>
-        </ul>`;
+function fillWeatherInfo(jsonResult, imp) {
+    let p = imp.querySelectorAll('p');
+    p[1].innerHTML = `${getTypeOfWind(jsonResult.wind.speed)}, ${jsonResult.wind.speed} m/s, ${getWindDirection(jsonResult.wind.deg)}`;
+    p[2].innerHTML = `${getTypeOfCloudy(jsonResult.clouds.all)}`;
+    p[3].innerHTML = `${jsonResult.main.pressure} hpa`;
+    p[4].innerHTML = `${jsonResult.main.humidity} %`;
+    p[5].innerHTML = `[${jsonResult.coord.lat}, ${jsonResult.coord.lon}]`;
+    // return `<ul class="weather-info">
+    //         <li class="characteristic">
+    //             <span>Ветер</span>
+    //             <p>${getTypeOfWind(jsonResult.wind.speed)}, ${jsonResult.wind.speed} m/s, ${getWindDirection(jsonResult.wind.deg)}</p>
+    //         </li>
+    //
+    //         <li class="characteristic">
+    //             <span>Облачность</span>
+    //             <p>${getTypeOfCloudy(jsonResult.clouds.all)}</p>
+    //         </li>
+    //
+    //         <li class="characteristic">
+    //             <span>Давление</span>
+    //             <p>${jsonResult.main.pressure} hpa</p>
+    //         </li>
+    //
+    //         <li class="characteristic">
+    //             <span>Влажность</span>
+    //             <p>${jsonResult.main.humidity} %</p>
+    //         </li>
+    //
+    //         <li class="characteristic">
+    //             <span>Координаты</span>
+    //             <p>[${jsonResult.coord.lat}, ${jsonResult.coord.lon}]</p>
+    //         </li>
+    //     </ul>`;
 }
 
 
@@ -357,6 +368,8 @@ function getTimeOfDay(jsonResult) {
     }
     return 'day';
 }
+
+localStorage.clear();
 
 getLocation();
 addSavedCities();

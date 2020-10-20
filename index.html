@@ -36,5 +36,38 @@
         <ul class="favorite-cities"></ul>
     </section>
 </main>
-<script src="weather.js"></script>
+
+<template id="tempCurrentCity">
+    <div class="current-city">
+        <h2 class="current-city-name"></h2>
+        <div class="current-weather">
+            <img src="" class="current-weather-img" alt="weather"/>
+            <p class="current-degrees"></p>
+        </div>
+    </div>
+    <ul class="weather-info">
+        <li class="characteristic">
+            <span>Ветер</span>
+            <p></p>
+        </li>
+        <li class="characteristic">
+            <span>Облачность</span>
+            <p></p>
+        </li>
+        <li class="characteristic">
+            <span>Давление</span>
+            <p></p>
+        </li>
+        <li class="characteristic">
+            <span>Влажность</span>
+            <p></p>
+        </li>
+        <li class="characteristic">
+            <span>Координаты</span>
+            <p></p>
+        </li>
+    </ul>
+</template>
 </body>
+<script src="weather.js"></script>
+</html>
