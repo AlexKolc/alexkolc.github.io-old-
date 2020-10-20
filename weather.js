@@ -87,32 +87,6 @@ function fillWeatherInfo(jsonResult, imp) {
     p[3].innerHTML = `${jsonResult.main.pressure} hpa`;
     p[4].innerHTML = `${jsonResult.main.humidity} %`;
     p[5].innerHTML = `[${jsonResult.coord.lat}, ${jsonResult.coord.lon}]`;
-    // return `<ul class="weather-info">
-    //         <li class="characteristic">
-    //             <span>Ветер</span>
-    //             <p>${getTypeOfWind(jsonResult.wind.speed)}, ${jsonResult.wind.speed} m/s, ${getWindDirection(jsonResult.wind.deg)}</p>
-    //         </li>
-    //
-    //         <li class="characteristic">
-    //             <span>Облачность</span>
-    //             <p>${getTypeOfCloudy(jsonResult.clouds.all)}</p>
-    //         </li>
-    //
-    //         <li class="characteristic">
-    //             <span>Давление</span>
-    //             <p>${jsonResult.main.pressure} hpa</p>
-    //         </li>
-    //
-    //         <li class="characteristic">
-    //             <span>Влажность</span>
-    //             <p>${jsonResult.main.humidity} %</p>
-    //         </li>
-    //
-    //         <li class="characteristic">
-    //             <span>Координаты</span>
-    //             <p>[${jsonResult.coord.lat}, ${jsonResult.coord.lon}]</p>
-    //         </li>
-    //     </ul>`;
 }
 
 
@@ -196,7 +170,6 @@ function getTypeOfCloudy(percent) {
 function addNewCity() {
     const formData = new FormData(addNewCityForm);
     const cityName = formData.get('newCityName').toString();
-    // const cityName = 'Moscow';
     addNewCityForm.reset();
     if (localStorage.hasOwnProperty(cityName)) {
         return;
@@ -222,21 +195,23 @@ function newCityLoaderInfo() {
 
 function addCity(jsonResult, newCity) {
     const cityName = jsonResult.name;
-    newCity.id = cityName.split(' ').join('-');
-    newCity.innerHTML = `<div class="favorite-weather">
-                            <h3>${cityName}</h3>
-                            <p class="degrees">${Math.floor(jsonResult.main.temp)}&deg;C</p>
-                            <img src="images/weather/${getWeatherIcon(jsonResult)}.png" class="favorite-weather-img" alt="weather small"/>
-                            <button onclick="deleteCity(\'${cityName}\');" class="delete-btn">+</button>
-                        </div>
- 
-                        <ul class="weather-info">
-                            ${fillWeatherInfo(jsonResult)}
-                        </ul>`;
+
+    const template = document.querySelector('#tempFavoriteCity');
+    const imp = document.importNode(template.content, true)
+    imp.querySelector('.favorite-city-name').innerHTML = cityName;
+    imp.querySelector('.degrees').innerHTML = `${Math.floor(jsonResult.main.temp)}&deg;C`;
+    imp.querySelector('.favorite-weather-img').src = `images/weather/${getWeatherIcon(jsonResult)}.png`;
+    imp.querySelector('.delete-btn')
+        .addEventListener('click', () => deleteCity(cityName));
+    fillWeatherInfo(jsonResult, imp);
+    document.getElementsByClassName('favorite-cities')[0].id = cityName.split(' ').join('-');
+    document.getElementsByClassName('favorite-cities')[0].replaceChild(imp, newCity);
+
 }
 
 function deleteCity(cityName) {
     localStorage.removeItem(cityName);
+    alert(document.getElementById(cityName.split(' ').join('-')))
     document.getElementById(cityName.split(' ').join('-')).remove();
 }
 
@@ -245,9 +220,6 @@ function getWeatherIcon(jsonResult) {
     let wind = haveWind(jsonResult.wind.speed);
     let precipitation = havePrecipitation(jsonResult);
     let timeOfDay = getTimeOfDay(jsonResult);
-
-    //let al = clouds + ' ' + wind + ' ' + precipitation + ' ' + timeOfDay;
-    //alert(al);
 
     if (clouds === 'cloudy' && precipitation === 'no' && wind === 'no') {
         return 'cloud';
@@ -330,11 +302,6 @@ function havePrecipitation(jsonResult) {
         snow = jsonResult.snow['1h'];
         //alert("SNOW TOO");
     }
-    // let message = jsonResult.name + ' ' + jsonResult.hasOwnProperty('rain').toString() + ' ';
-    // if (jsonResult.hasOwnProperty('rain')) {
-    //     message = message + jsonResult.rain.hasOwnProperty('1h').toString();
-    // }
-    // alert(message);
     if (snow > rain) {
         if (snow > 0.1) {
             return 'snow';
