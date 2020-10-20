@@ -29,6 +29,7 @@ function request(params) {
 }
 
 function addSavedCities() {
+    // alert('AAAAAAAAAAAAAA')
     for (let i = 0; i < localStorage.length; i++) {
         const newCity = newCityLoaderInfo();
         let key = localStorage.key(i);
@@ -178,6 +179,7 @@ function addNewCity() {
     request(['q=' + cityName]).then((jsonResult) => {
         if (jsonResult && !localStorage.hasOwnProperty(jsonResult.name)) {
             localStorage.setItem(jsonResult.name, '');
+            //alert(localStorage.length.toString())
             addCity(jsonResult, newCity);
         } else {
             newCity.remove();
@@ -195,6 +197,7 @@ function newCityLoaderInfo() {
 
 function addCity(jsonResult, newCity) {
     const cityName = jsonResult.name;
+    newCity.id = cityName.split(' ').join('-');
 
     const template = document.querySelector('#tempFavoriteCity');
     const imp = document.importNode(template.content, true)
@@ -204,14 +207,12 @@ function addCity(jsonResult, newCity) {
     imp.querySelector('.delete-btn')
         .addEventListener('click', () => deleteCity(cityName));
     fillWeatherInfo(jsonResult, imp);
-    document.getElementsByClassName('favorite-cities')[0].id = cityName.split(' ').join('-');
-    document.getElementsByClassName('favorite-cities')[0].replaceChild(imp, newCity);
-
+    newCity.innerHTML = '';
+    newCity.append(imp);
 }
 
 function deleteCity(cityName) {
     localStorage.removeItem(cityName);
-    alert(document.getElementById(cityName.split(' ').join('-')))
     document.getElementById(cityName.split(' ').join('-')).remove();
 }
 
@@ -335,8 +336,6 @@ function getTimeOfDay(jsonResult) {
     }
     return 'day';
 }
-
-localStorage.clear();
 
 getLocation();
 addSavedCities();
