@@ -65,7 +65,10 @@ function sleep(milliseconds) {
 }
 
 function currentCityInfoLoader() {
-    document.getElementsByClassName('current-city-info')[0].innerHTML = `<div class="current-city-loader"></div>`;
+    const template = document.querySelector('#tempCurrentCityLoader');
+    const imp = document.importNode(template.content, true);
+    document.getElementsByClassName('current-city-info')[0].innerHTML = '';
+    document.getElementsByClassName('current-city-info')[0].append(imp);
 }
 
 function fillCurrentCityInfo(params) {
