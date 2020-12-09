@@ -11,13 +11,10 @@ addNewCityForm.addEventListener('submit', (event) => {
     event.preventDefault();
 })
 
-function request(params) {
-    params.push('units=metric');
-    params.push('appid=52f8f9af79e0664f928042deb0e2b888');
-    const url = 'https://api.openweathermap.org/data/2.5/weather?' + params.join('&');
-    const abortController = new AbortController();
-    const abortSignal = abortController.signal;
-    return fetch(url, {signal: abortSignal}).then((response) => {
+function request(endpoint, queryParams) {
+    const base = 'http://localhost:8081/weather/';
+    const url = base + endpoint + '?' + queryParams.join('&');
+    return fetch(url).then((response) => {
         if (response.ok) {
             return response.json();
         } else {
@@ -29,14 +26,19 @@ function request(params) {
 }
 
 function addSavedCities() {
-    // alert('AAAAAAAAAAAAAA')
-    for (let i = 0; i < localStorage.length; i++) {
-        const newCity = newCityLoaderInfo();
-        let key = localStorage.key(i);
-        request(['q=' + key]).then((jsonResult) => {
-            addCity(jsonResult, newCity);
-        });
-    }
+    fetch('http://localhost:8081/favourites').then((res) => {
+        if (res.ok) {
+            return res.json()
+        }
+    }).then((res) => {
+        for (let i = 0; i < res.cities.length; i++) {
+            const newCity = newCityLoaderInfo();
+            const key = res.cities[i];
+            request('city', ['q=' + key]).then((jsonResult) => {
+                addCity(jsonResult, newCity);
+            });
+        }
+    });
 }
 
 function getLocation() {
@@ -45,23 +47,15 @@ function getLocation() {
     if (currentLocation) {
         currentLocation.getCurrentPosition(
             (position) => {
-                fillCurrentCityInfo([`lat=${position.coords.latitude}`, `lon=${position.coords.longitude}`]);
+                fillCurrentCityInfo('coordinates',[`lat=${position.coords.latitude}`, `lon=${position.coords.longitude}`]);
             },
             (error) => {
-                fillCurrentCityInfo(['q=Saint Petersburg']);
+                fillCurrentCityInfo('city',['q=Saint Petersburg']);
             }
         );
     } else {
-        fillCurrentCityInfo(['q=Saint Petersburg']);
+        fillCurrentCityInfo('city',['q=Saint Petersburg']);
     }
-}
-
-function sleep(milliseconds) {
-    const date = Date.now();
-    let currentDate = null;
-    do {
-        currentDate = Date.now();
-    } while (currentDate - date < milliseconds);
 }
 
 function currentCityInfoLoader() {
@@ -71,8 +65,8 @@ function currentCityInfoLoader() {
     document.getElementsByClassName('current-city-info')[0].append(imp);
 }
 
-function fillCurrentCityInfo(params) {
-    request(params).then((jsonResult) => {
+function fillCurrentCityInfo(endpoint, queryParams) {
+    request(endpoint, queryParams).then((jsonResult) => {
         const template = document.querySelector('#tempCurrentCity');
         const imp = document.importNode(template.content, true)
         imp.querySelector('.current-city-name').innerHTML = jsonResult.name;
@@ -174,19 +168,31 @@ function getTypeOfCloudy(percent) {
 function addNewCity() {
     const formData = new FormData(addNewCityForm);
     const cityName = formData.get('newCityName').toString();
-    addNewCityForm.reset();
-    if (localStorage.hasOwnProperty(cityName)) {
-        return;
-    }
     const newCity = newCityLoaderInfo();
-    request(['q=' + cityName]).then((jsonResult) => {
-        if (jsonResult && !localStorage.hasOwnProperty(jsonResult.name)) {
-            localStorage.setItem(jsonResult.name, '');
-            //alert(localStorage.length.toString())
-            addCity(jsonResult, newCity);
-        } else {
+    addNewCityForm.reset();
+    request('city', ['q=' + cityName]).then((jsonResult) => {
+        // alert(jsonResult.name);
+        fetch('http://localhost:8081/favourites', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                name: jsonResult.name
+            })
+        }).then((response) => {
+            if (response.status === 200) {
+                addCity(jsonResult, newCity);
+            } else {
+                newCity.remove();
+                alert('This city is already in the favorites');
+            }
+        }).catch((err) => {
             newCity.remove();
-        }
+            alert('Connection was lost');
+        })
+    }).catch((err) => {
+        newCity.remove();
     });
 }
 
@@ -215,7 +221,15 @@ function addCity(jsonResult, newCity) {
 }
 
 function deleteCity(cityName) {
-    localStorage.removeItem(cityName);
+    fetch('http://localhost:8081/favourites', {
+        method: 'DELETE',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            name: cityName
+        })
+    });
     document.getElementById(cityName.split(' ').join('-')).remove();
 }
 
