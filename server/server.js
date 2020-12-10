@@ -32,8 +32,6 @@ server.use((req, res, next) => {
     next();
 });
 
-
-// http://localhost:8080/weather/city?city=Moscow
 server.get('/weather/city', (req, res) => {
     let city = req.query.q;
     city = encodeURI(city);
