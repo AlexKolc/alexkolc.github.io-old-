@@ -66,11 +66,9 @@ server.get('/favourites', (req, res) => {
     client.query(query)
         .then(data => {
             let cities_data = data.rows;
-            console.log(cities_data.length)
             let cities = []
             for (let i = 0; i < cities_data.length; i++) {
                 cities.push(cities_data[i].city_name)
-                console.log(cities[cities.length - 1])
             }
             res.send({cities});
         })
@@ -108,15 +106,12 @@ server.delete('/favourites', (req, res) => {
     client
         .query(query)
         .then(result => {
-            res.send(city_name + ' deleted');
+            res.sendStatus(200);
         })
         .catch(err => {
             res.sendStatus(400);
-            console.log(err);
             throw err;
         });
-
-
 });
 
 server.listen(port, () => {

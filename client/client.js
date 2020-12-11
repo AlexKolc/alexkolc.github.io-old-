@@ -168,6 +168,11 @@ function getTypeOfCloudy(percent) {
 function addNewCity() {
     const formData = new FormData(addNewCityForm);
     const cityName = formData.get('newCityName').toString();
+    if (cityName.replace(/\s+/g, '') === '') {
+        alert('Empty line');
+        return;
+    }
+
     const newCity = newCityLoaderInfo();
     addNewCityForm.reset();
     request('city', ['q=' + cityName]).then((jsonResult) => {
@@ -221,6 +226,9 @@ function addCity(jsonResult, newCity) {
 }
 
 function deleteCity(cityName) {
+    const delBtn = document.getElementById(cityName.split(' ').join('-')).querySelector('.delete-btn');
+    delBtn.style.backgroundColor = '#b0bbc1';
+    delBtn.disabled = true;
     fetch('http://localhost:8081/favourites', {
         method: 'DELETE',
         headers: {
@@ -229,8 +237,15 @@ function deleteCity(cityName) {
         body: JSON.stringify({
             name: cityName
         })
+    }).then((response) => {
+        if (response.status === 200) {
+            document.getElementById(cityName.split(' ').join('-')).remove();
+        } else {
+            delBtn.style.backgroundColor = '#718288';
+            delBtn.disabled = false;
+            alert('City didn\'t delete');
+        }
     });
-    document.getElementById(cityName.split(' ').join('-')).remove();
 }
 
 function getWeatherIcon(jsonResult) {
