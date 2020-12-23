@@ -1,34 +1,32 @@
-const express = require('express')
+const express = require('express');
 const fetch = require('node-fetch');
-const cors = require('cors')
-const server = express()
-const port = 8081
-const api_key = '52f8f9af79e0664f928042deb0e2b888'
-const bodyParser = require('body-parser')
+const cors = require('cors');
+const server = express();
+const port = 8081;
+const api_key = '52f8f9af79e0664f928042deb0e2b888';
+const bodyParser = require('body-parser');
+const helmet = require('helmet');
 
+const MongoClient = require('mongodb').MongoClient;
+const uri = 'mongodb+srv://mongodb_user:123654@cluster0.14oq0.mongodb.net/<Cluster0>?retryWrites=true&w=majority';
+MongoClient.connect(uri, (err, database) => {
+    if (err) {
+        return console.log(err)
+    }
+
+    global.DB = database.db();
+})
+
+server.use(helmet());
 server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({ extended: true }));
-
-const pg = require('pg');
-
-const config = {
-    host: 'localhost',
-    user: 'postgres',
-    password: '123654',
-    database: 'favourites',
-    port: 8080
-};
-
-const client = new pg.Client(config);
-client.connect();
 
 server.use(cors())
 
 server.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8081');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE');
     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept');
-    res.setHeader('Accept-Charset', 'utf-8')
     next();
 });
 
@@ -52,7 +50,11 @@ server.get('/weather/coordinates', (req, res) => {
     let lon = req.query.lon;
     fetch('https://api.openweathermap.org/data/2.5/weather?lat=' + lat + '&lon=' + lon + '&units=metric' + '&appid=' + api_key)
         .then(function (resp) {
-            return resp.json()
+            if (resp.status === 200) {
+                return resp.json()
+            } else {
+                return 404
+            }
         })
         .then(function (data) {
             res.send(data)
@@ -60,19 +62,13 @@ server.get('/weather/coordinates', (req, res) => {
 })
 
 server.get('/favourites', (req, res) => {
-
-    const query = 'SELECT * FROM \"cities\"';
-
-    client.query(query)
-        .then(data => {
-            let cities_data = data.rows;
-            let cities = []
-            for (let i = 0; i < cities_data.length; i++) {
-                cities.push(cities_data[i].city_name)
-            }
-            res.send({cities});
+    let db = global.DB;
+    db.collection('cities').find({}).toArray()
+        .then(res => res.map((city) => city.name))
+        .then((result) => {
+            res.send({cities: result});
         })
-        .catch(err => {
+        .catch((err) => {
             res.sendStatus(503);
         });
 })
@@ -83,14 +79,15 @@ server.post('/favourites', (req, res) => {
 
     res.setHeader('Content-Type', `text/${textType}; charset=UTF-8`)
 
-    let query = "INSERT INTO \"cities\" (city_name) VALUES ('"+ city_name + "')";
-    client.query(query)
-        .then(() => {
+    let db = global.DB;
+    db.collection('cities').find({name: city_name}).toArray().then((result) => {
+        if (!result.length) {
+            db.collection('cities').insertOne({name: city_name});
             res.sendStatus(200);
-        })
-        .catch(err => {
+        } else {
             res.sendStatus(400);
-        });
+        }
+    });
 })
 
 server.options('*', (req, res) => {
@@ -101,19 +98,20 @@ server.options('*', (req, res) => {
 
 server.delete('/favourites', (req, res) => {
     let city_name = req.body.name;
-    let query = 'DELETE FROM \"cities\" WHERE city_name=\'' + city_name + '\'';
+    let db = global.DB;
 
-    client
-        .query(query)
-        .then(result => {
-            res.sendStatus(200);
-        })
-        .catch(err => {
-            res.sendStatus(400);
-            throw err;
-        });
+    db.collection('cities').deleteOne({name: city_name}).then( (err, item) => {
+        if (err) {
+            return res.sendStatus(400);
+        } else {
+            return res.sendStatus(200)
+        }
+    });
 });
+
 
 server.listen(port, () => {
     console.log(`App listening at http://localhost:${port}`)
 })
+
+module.exports = server;

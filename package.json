@@ -1,0 +1,30 @@
+{
+  "name": "web-labs",
+  "version": "1.0.0",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "http-errors": "^1.8.0",
+    "node-fetch": "^2.6.1",
+    "rewire": "^5.0.0",
+    "mocha": "^8.2.1",
+    "chai-http": "^4.3.0",
+    "fetch-mock": "^9.11.0",
+    "@types/chai": "^4.2.14",
+    "chai": "^4.2.0",
+    "helmet": "^4.2.0",
+    "isomorphic-fetch": "^3.0.0",
+    "mock-geolocation": "^1.0.11",
+    "sinon": "^9.2.2",
+    "sinon-mongo": "^1.1.0",
+    "mongodb": "^3.6.3"
+  },
+  "devDependencies": {
+    "request": "^2.88.2",
+    "jsdom": "^16.4.0"
+  },
+  "scripts": {
+    "test": "mocha test/*.js --exit"
+  }
+}
