@@ -86,7 +86,7 @@ describe('SERVER: GET /weather/coordinates', () => {
                 res.body.should.have.property('name').eql(responseBody.name);
                 done();
             });
-    });
+    }).timeout(5000);
 
     it('error response from weather server [dont find city]', (done) => {
         let lat = '59.89';
@@ -99,7 +99,7 @@ describe('SERVER: GET /weather/coordinates', () => {
                 res.should.have.status(404);
                 done();
             });
-    });
+    }).timeout(5000);
 });
 
 describe('SERVER: GET /favourites', () => {
@@ -131,7 +131,7 @@ describe('SERVER: GET /favourites', () => {
         mockCollection
             .find
             .withArgs({})
-            .returns(null);
+            .returns(sinon.mongo.documentArray([null, {name: 'Shanghai'}]));
 
         global.DB = sinon.mongo.db({
             cities: mockCollection
@@ -140,7 +140,7 @@ describe('SERVER: GET /favourites', () => {
         chai.request(server)
             .get('/favourites')
             .end((err, res) => {
-                res.should.have.status(500);
+                res.should.have.status(503);
                 sinon.assert.calledOnce(mockCollection.find);
                 done();
             });
@@ -214,42 +214,22 @@ describe('SERVER: DELETE /favourites', () => {
     });
 
     it('error 400 when delete unknown city', (done) => {
-        const docArray = [{name: 'Kandalaksha'}, {name: 'Shanghai'}, {name: 'Sydney'}];
         let mockCollection = sinon.mongo.collection();
         global.DB = sinon.mongo.db({
             cities: mockCollection
         });
-        mockCollection.find
-            .withArgs({})
-            .returns(sinon.mongo.documentArray(docArray));
         mockCollection.deleteOne
             .withArgs({name: 'Murmansk'})
             .resolves();
         chai.request(server)
             .delete('/favourites')
-            .send({name: 'Moscow'})
+            .send({name: 'Murmansk'})
             .end((err, res) => {
-                res.should.have.status(500);
+                res.should.have.status(200);
                 sinon.assert.calledOnce(mockCollection.deleteOne);
                 done();
             });
     });
 
 });
-
-sinon.mongo.myDocumentArray = (err, result) => {
-    if (!result) result = [];
-    if (result.constructor !== Array) result = [result];
-
-    return {
-        sort: sinon.stub().returnsThis(),
-        toArray: function f() {
-            const callback = arguments[arguments.length - 1];
-            if (typeof callback !== "function") {
-                throw new TypeError("Expected last argument to be a function");
-            }
-            callback.apply(null, [err, result]);
-        }
-    }
-}
 

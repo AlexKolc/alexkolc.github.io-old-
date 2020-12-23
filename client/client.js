@@ -1,15 +1,25 @@
-let updateLocationForm = document.forms.namedItem('updateLocation');
-let addNewCityForm = document.forms.namedItem('addNewCity');
+let updateLocationForm;
+let addNewCityForm;
 
-updateLocationForm.addEventListener('click', (event) => {
+function init() {
+    updateLocationForm = document.forms.namedItem('updateLocation');
+    addNewCityForm = document.forms.namedItem('addNewCity');
+
+
+    updateLocationForm.addEventListener('click', (event) => {
+        getLocation();
+        event.preventDefault();
+    })
+
+    addNewCityForm.addEventListener('submit', (event) => {
+        addNewCity();
+        event.preventDefault();
+    })
+
     getLocation();
-    event.preventDefault();
-})
+    addSavedCities();
+}
 
-addNewCityForm.addEventListener('submit', (event) => {
-    addNewCity();
-    event.preventDefault();
-})
 
 function request(endpoint, queryParams) {
     const base = 'http://localhost:8081/weather/';
@@ -26,7 +36,7 @@ function request(endpoint, queryParams) {
 }
 
 function addSavedCities() {
-    fetch('http://localhost:8081/favourites').then((res) => {
+    return fetch('http://localhost:8081/favourites').then((res) => {
         if (res.ok) {
             return res.json()
         }
@@ -38,6 +48,8 @@ function addSavedCities() {
                 addCity(jsonResult, newCity);
             });
         }
+    }).catch(e => {
+
     });
 }
 
@@ -47,7 +59,7 @@ function getLocation() {
     if (currentLocation) {
         currentLocation.getCurrentPosition(
             (position) => {
-                fillCurrentCityInfo('coordinates',[`lat=${position.coords.latitude}`, `lon=${position.coords.longitude}`]);
+                 fillCurrentCityInfo('coordinates',[`lat=${position.coords.latitude}`, `lon=${position.coords.longitude}`]);
             },
             (error) => {
                 fillCurrentCityInfo('city',['q=Saint Petersburg']);
@@ -66,9 +78,10 @@ function currentCityInfoLoader() {
 }
 
 function fillCurrentCityInfo(endpoint, queryParams) {
-    request(endpoint, queryParams).then((jsonResult) => {
+    return request(endpoint, queryParams).then((jsonResult) => {
         const template = document.querySelector('#tempCurrentCity');
         const imp = document.importNode(template.content, true)
+        const name = jsonResult.name;
         imp.querySelector('.current-city-name').innerHTML = jsonResult.name;
         imp.querySelector('.current-weather-img').src = `images/weather/${getWeatherIcon(jsonResult)}.png`;
         imp.querySelector('.current-degrees').innerHTML = `${Math.floor(jsonResult.main.temp)}&deg;C`;
@@ -78,7 +91,7 @@ function fillCurrentCityInfo(endpoint, queryParams) {
     });
 }
 
-function fillWeatherInfo(jsonResult, imp) {
+async function fillWeatherInfo(jsonResult, imp) {
     let p = imp.querySelectorAll('p');
     p[1].innerHTML = `${getTypeOfWind(jsonResult.wind.speed)}, ${jsonResult.wind.speed} m/s, ${getWindDirection(jsonResult.wind.deg)}`;
     p[2].innerHTML = `${getTypeOfCloudy(jsonResult.clouds.all)}`;
@@ -165,6 +178,7 @@ function getTypeOfCloudy(percent) {
     }
 }
 
+
 function addNewCity() {
     const formData = new FormData(addNewCityForm);
     const cityName = formData.get('newCityName').toString();
@@ -175,7 +189,7 @@ function addNewCity() {
 
     const newCity = newCityLoaderInfo();
     addNewCityForm.reset();
-    request('city', ['q=' + cityName]).then((jsonResult) => {
+    return request('city', ['q=' + cityName]).then((jsonResult) => {
         // alert(jsonResult.name);
         fetch('http://localhost:8081/favourites', {
             method: 'POST',
@@ -223,6 +237,7 @@ function addCity(jsonResult, newCity) {
     fillWeatherInfo(jsonResult, imp);
     newCity.innerHTML = '';
     newCity.append(imp);
+    return 200;
 }
 
 function deleteCity(cityName) {
@@ -369,5 +384,14 @@ function getTimeOfDay(jsonResult) {
     return 'day';
 }
 
-getLocation();
-addSavedCities();
+module.exports = {
+    init : init,
+    request : request,
+    addSavedCities : addSavedCities,
+    getLocation : getLocation,
+    currentCityInfoLoader : currentCityInfoLoader,
+    fillCurrentCityInfo : fillCurrentCityInfo,
+    addNewCity : addNewCity,
+    newCityLoaderInfo : newCityLoaderInfo,
+    addCity : addCity
+}
