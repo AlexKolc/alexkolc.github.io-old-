@@ -310,7 +310,7 @@ describe('CLIENT: load info about current city', () => {
         client.getLocation()
         geolocate.send({latitude: 59.89, longitude: 30.26});
         const currentCity = document.getElementsByClassName('current-city-info')[0];
-        currentCity.innerHTML.should.be.eql(spbCur);
+        currentCity.innerHTML.should.be.eql(spbCurrent);
         done();
 
     });
@@ -341,7 +341,7 @@ describe('CLIENT: add new favourite city', () => {
         form.getElementsByTagName('input')[0].value = cityName;
         client.addNewCity().then((res) => {
             let lastCity = document.getElementsByClassName('favorite-cities')[0].lastChild;
-            lastCity.innerHTML.should.be.eql(spbFav);
+            lastCity.innerHTML.should.be.eql(spbFavourite);
             done();
         }).catch(done);
     });
@@ -356,7 +356,7 @@ describe('CLIENT: add new favourite city', () => {
         form.getElementsByTagName('input')[0].value = cityName;
         alert = sinon.spy();
         client.addNewCity().then((res) => {
-            expect(!alert.calledOnce).to.be.true;
+            expect(alert.calledOnce).to.be.true;
             done();
         })
     });
@@ -417,7 +417,7 @@ describe('CLIENT: get all favourites cities', () => {
         fetchMock.get(url, {cities: [cityName]});
         client.addSavedCities().then((res) => {
             let lastCity = document.getElementsByClassName('favorite-cities')[0].lastChild;
-            lastCity.innerHTML.should.be.eql(spbFav);
+            lastCity.innerHTML.should.be.eql(spbFavourite);
             done();
         }).catch(done);
     })
